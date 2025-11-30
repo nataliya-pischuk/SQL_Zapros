@@ -19,18 +19,35 @@
 Получите уникальные названия районов из таблицы с адресами, которые начинаются на «K», заканчиваются на «a» и не содержат пробелов.
 
 ## Решение
+
+SELECT DISTINCT district
+FROM address
+WHERE district like 'K%a' and  district not like '% %';
+
 ![alt text](img/1.JPG)
 
 ## Задание 2
 Получите из таблицы платежей за прокат фильмов информацию о платежах, которые были совершены в период с 15 по 18 июня 2005 года включительно и сумма которых превышает 10,00.
 
 ## Решение
+
+SELECT payment_id, payment_date, amount 
+FROM payment
+WHERE payment_date >= '2005-06-15' AND payment_date < '2005-06-19' AND amount > 10;
+
 ![alt text](img/2.JPG)
 
 ## Задание 3
 Получите последние пять фильмов в аренду.
 
 ## Решение
+
+SELECT rental_id, rental_date  
+FROM rental
+ORDER BY rental_date DESC
+LIMIT 5;
+
+
 ![alt text](img/3.JPG)
 
 ## Задание 4
@@ -44,16 +61,30 @@
 Эти задания являются дополнительными, то есть не обязательными к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете выполнить их, если хотите глубже разобраться в материале.
 
 ## Решение
+
+SELECT REPLACE(LOWER(first_name), 'll', 'pp'), LOWER(last_name), active
+FROM customer
+WHERE first_name IN ('Kelly', 'Willie') and active = 1;
+
 ![alt text](img/4.JPG)
 
 ## Задание 5*
 Выведите адрес электронной почты каждого покупателя, разделив его на две части: в первой части должно быть указано значение до @, во второй — значение после @.
 
 ## Решение
+
+SELECT email, SUBSTRING_INDEX(email , '@', 1) AS 'before @', SUBSTRING_INDEX(email , '@', -1) AS 'after @'
+FROM customer;
+
 ![alt text](img/5.JPG)
 
 ## Задание 6*
 Доработайте запрос из предыдущего задания, скорректировав значения в новых столбцах: первая буква должна быть заглавной, остальные — строчными.
 
 ## Решение
+
+SELECT CONCAT(UPPER(left((SUBSTRING_INDEX(email , '@', 1)),1)) , SUBSTRING( LOWER(SUBSTRING_INDEX(email , '@', 1)),2)) AS "before @",
+CONCAT(UPPER(left((SUBSTRING_INDEX(email , '@', -1)),1)) , SUBSTRING( LOWER(SUBSTRING_INDEX(email , '@', -1)),2)) AS "After @"
+FROM customer;
+
 ![alt text](img/6.JPG)
